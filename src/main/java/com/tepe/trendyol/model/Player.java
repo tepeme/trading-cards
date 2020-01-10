@@ -6,6 +6,15 @@ public class Player {
     private int allowedMana;
     private Deck deck;
 
+    private Player() {}
+
+    public Player(int health, int activeMana, int allowedMana, Deck deck) {
+        this.health = health;
+        this.activeMana = activeMana;
+        this.allowedMana = allowedMana;
+        this.deck = deck;
+    }
+
     public int getHealth() {
         return health;
     }
