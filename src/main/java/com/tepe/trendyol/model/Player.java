@@ -5,13 +5,15 @@ public class Player {
     private int activeMana;
     private int allowedMana;
     private Deck deck;
+    private Deck hand;
 
     private Player() {}
 
-    public Player(int health, int activeMana, int allowedMana, Deck deck) {
+    public Player(int health, int activeMana, int allowedMana, Deck deck, int initHandCardCount) {
         this.health = health;
         this.activeMana = activeMana;
         this.allowedMana = allowedMana;
+
         this.deck = deck;
     }
 
@@ -45,5 +47,9 @@ public class Player {
 
     public void setDeck(Deck deck) {
         this.deck = deck;
+    }
+
+    public Deck getHand() {
+        return hand;
     }
 }
