@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Component public class CardBO {
@@ -21,7 +22,7 @@ import java.util.Random;
     public Card pollCard(int manaCost) throws TradingCardsException {
         List<Card> allCards = tradingCardsUtil.getAllCardsByManaCost(manaCost);
 
-        if (allCards.size() < 1) {
+        if (Objects.isNull(allCards) || allCards.size() < 1) {
             LOG.error("Not enough cards in game");
             throw new TradingCardsException(TradingCardsExceptionType.NOT_ENOUGH_CARDS_IN_GAME);
         }

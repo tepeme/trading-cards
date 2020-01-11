@@ -11,8 +11,6 @@ import java.util.Objects;
 public class Deck implements Drawable {
     private List<Playable> playables;
 
-    private Deck(){}
-
     public Deck(List<Playable> playables) {
         this.playables = playables;
     }
@@ -74,30 +72,10 @@ public class Deck implements Drawable {
     @Override
     public Playable draw() {
         if (hasEnoughPlayable(1)) {
-            IOUtil.print("Drawing:");
             Playable playable = this.playables.remove(0);
-            playable.print();
             return playable;
         }
-        IOUtil.print("Deck is empty! Can not draw.");
-        return null;
-    }
-
-    /**
-     * Removes and returns top {@code drawCount} {@code Playable}s in this {@code Drawable}
-     * @param drawCount
-     * @return
-     */
-    @Override
-    public List<Playable> draw(int drawCount) {
-        if (hasEnoughPlayable(drawCount)) {
-            List<Playable> playableList = new ArrayList<>();
-            for (int i = 0; i < drawCount; i++) {
-                playableList.add(draw());
-            }
-            return playableList;
-        }
-        IOUtil.print("You don't have enough cards in your deck! Can not draw.");
+        IOUtil.getInstance().print("Deck is empty! Can not draw.");
         return null;
     }
 
@@ -109,6 +87,9 @@ public class Deck implements Drawable {
         if (!Objects.isNull(playables)) {
             for (int i = 0; i < this.playables.size(); i++) {
                 this.playables.get(i).print();
+                if (i != this.playables.size() - 1) {
+                    IOUtil.getInstance().printBreak();
+                }
             }
         }
     }
@@ -171,5 +152,21 @@ public class Deck implements Drawable {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean containsPlayableForMana(int mana) {
+        if (Objects.isNull(this.playables)) {
+            return false;
+        }
+        return this.getPlayables().stream().anyMatch(playable -> playable.getManaCost() <= mana);
+    }
+
+    @Override
+    public void discard(Playable playable) {
+        if (Objects.isNull(this.playables)) {
+            return;
+        }
+        this.playables.remove(playable);
     }
 }

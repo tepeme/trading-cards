@@ -17,14 +17,12 @@ public class TradingCardsUtil {
     private Properties properties;
 
     private static Set<String> allCardNames;
-    private static Map<Integer, List<Card>> allCards;
+    private static Map<Integer, List<Card>> allCards = new HashMap<>();
 
     /**
      * Initializes every Card in game. This can be replaced with a method retrieving Cards from a DB etc.
      */
     @PostConstruct private void initAllCards() {
-
-        allCards = new HashMap<>();
 
         int id = 1;
         for (int manaCost = 0; manaCost <= properties.getPlayerMaxMana(); manaCost++) {
@@ -69,11 +67,7 @@ public class TradingCardsUtil {
      * @return
      */
     public List<Card> getAllCardsByManaCost(int manaCost){
-        if (Objects.isNull(allCards)) {
-            return new ArrayList<>();
-        } else {
-            return allCards.get(manaCost);
-        }
+        return allCards.get(manaCost);
     }
 
     /**

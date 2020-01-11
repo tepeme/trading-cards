@@ -10,13 +10,6 @@ public interface Drawable {
     Playable draw();
 
     /**
-     * Removes and returns top {@code drawCount} {@code Playable}s in this {@code Drawable}
-     * @param drawCount Count of {@code Playable}s to draw
-     * @return List of {@code Playable}s
-     */
-    List<Playable> draw(int drawCount);
-
-    /**
      * Prints all {@code Playable}s in this {@code Drawable}
      *
      */
@@ -72,4 +65,9 @@ public interface Drawable {
      * @return {@code Playable}
      */
     Playable findByName(String name);
+
+    boolean containsPlayableForMana(int mana);
+
+    void discard(Playable playable);
+
 }

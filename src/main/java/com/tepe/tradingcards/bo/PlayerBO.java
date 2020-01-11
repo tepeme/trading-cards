@@ -3,85 +3,103 @@ package com.tepe.tradingcards.bo;
 import com.tepe.tradingcards.config.Properties;
 import com.tepe.tradingcards.exception.TradingCardsException;
 import com.tepe.tradingcards.model.Deck;
+import com.tepe.tradingcards.model.Game;
+import com.tepe.tradingcards.model.MoveType;
 import com.tepe.tradingcards.model.Player;
 import com.tepe.tradingcards.model.interfaces.Playable;
 import com.tepe.tradingcards.util.IOUtil;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component public class PlayerBO {
-
-    public static volatile PlayerBO INSTANCE;
 
     @Autowired private Properties properties;
 
     @Autowired private DeckBO deckBO;
 
+    @Autowired private Game game;
+
     /**
-     * Initializes a player and by system properties.
+     * Initializes a player by system properties.
      * @return Player
      */
-    public Player createPlayer() throws TradingCardsException {
+    public Player createPlayer(int id) throws TradingCardsException {
         Player player;
         Deck deck = deckBO.createDeck();
         Deck hand = new Deck(new ArrayList<>());
-        player = new Player(properties.getPlayerMaxHealth(), properties.getPlayerInitMana(),
-                properties.getPlayerInitMana(), deck, hand);
+        player = new Player(id, properties.getPlayerMaxHealth(), properties.getPlayerInitMana(),
+                properties.getPlayerInitMana(), deck, hand, properties.getPlayerMaxHandSize(),
+                properties.getPlayerMaxMana());
 
         return player;
     }
 
-    /**
-     * Draws playable from player's deck and returns true.
-     * If the deck is empty than returns false
-     * @return
-     */
-    public boolean draw(Player player) {
-        if (ObjectUtils.allNotNull(player, player.getDeck())){
-            IOUtil.print("Invalid operation!");
-            return false;
+    public void play(Player player) {
+        IOUtil.getInstance().print("Player #" + (player.getId() + 1) + " your turn:");
+        player.prepareForTurn(properties.getPlayerInitCards());
+        IOUtil.getInstance().print("Here are the cards in your hand:");
+        player.getHand().print();
+        IOUtil.getInstance().printBreak();
+
+        Playable playable = null;
+        boolean isSkip = false;
+        while(player.canPlayPlayable() && !isSkip) {
+            if (!Objects.isNull(playable)) {
+                IOUtil.getInstance().print("Player #" + (player.getId() + 1) + " your turn:");
+                IOUtil.getInstance().print("Here are the cards in your hand:");
+                player.getHand().print();
+                IOUtil.getInstance().printBreak();
+            }
+
+            playable = askNextPlayable(player);
+
+            if (Objects.isNull(playable)) {
+                isSkip = true;
+            } else {
+                playable.makeMove(game.getPlayers().stream().filter(p -> !p.equals(player)).collect(Collectors.toList()));
+                player.getHand().discard(playable);
+                player.reduceMana(playable.getManaCost());
+            }
         }
 
-        Playable playable = player.getDeck().draw();
-        boolean result = false;
-
-        if (!Objects.isNull(playable)) {
-            player.getHand().add(playable);
-            playable.print();
-            result = true;
-        }
-
-        if (player.checkOverloadAndDiscard(properties.getPlayerMaxHandSize())){
-            result = false;
-        }
-
-        return result;
     }
 
-    /**
-     * Draws multiple playables from player's deck returns true if player can draw at least one playable
-     * @param player
-     * @param drawCount
-     * @return
-     */
-    public boolean draw(Player player, int drawCount) {
-        if (ObjectUtils.allNotNull(player, player.getDeck())){
-            IOUtil.print("Invalid operation!");
-            return false;
+    private Playable askNextPlayable(Player player) {
+        IOUtil.getInstance().print("You have " + player.getActiveMana() + " Mana to use!");
+        String userInput = IOUtil.getInstance().askPlayableIdOrName();
+
+        Playable playable = null;
+        boolean askAgain = true;
+        while (Objects.isNull(playable) && askAgain) {
+            int playableId;
+            String playableName;
+            try {
+                playableId = Integer.parseInt(userInput);
+                playable = player.getHand().findById(playableId);
+            } catch (NumberFormatException nfe) {
+                playableName = userInput;
+                playable = player.getHand().findByName(playableName);
+            }
+
+            if (!Objects.isNull(playable) && player.getActiveMana() < playable.getManaCost()){
+                askAgain = true;
+                playable = null;
+                IOUtil.getInstance().print("Not Enough Mana!");
+            } else {
+                askAgain = false;
+            }
+
+            if (askAgain) {
+                IOUtil.getInstance().print("You have " + player.getActiveMana() + " Mana to use!");
+                userInput = IOUtil.getInstance().askPlayableIdOrName();
+            }
         }
 
-        boolean result = false;
-
-        for (int i = 0; i < drawCount; i++) {
-            result = result || draw(player);
-        }
-
-        return result;
+        return playable;
     }
 
 }

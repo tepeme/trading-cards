@@ -52,6 +52,7 @@
             <version>0.12</version>
         </dependency>
 
+
     </dependencies>
     <build>
         <finalName>trading-cards</finalName>
