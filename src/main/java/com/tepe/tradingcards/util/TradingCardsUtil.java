@@ -1,9 +1,9 @@
-package com.tepe.trendyol.util;
+package com.tepe.tradingcards.util;
 
 import com.github.javafaker.Faker;
-import com.tepe.trendyol.config.Properties;
-import com.tepe.trendyol.model.Card;
-import com.tepe.trendyol.model.MoveType;
+import com.tepe.tradingcards.config.Properties;
+import com.tepe.tradingcards.model.Card;
+import com.tepe.tradingcards.model.MoveType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,12 +26,14 @@ public class TradingCardsUtil {
 
         allCards = new HashMap<>();
 
+        int id = 1;
         for (int manaCost = 0; manaCost <= properties.getPlayerMaxMana(); manaCost++) {
             for (int j = 0; j < 5; j++) {
 
                 String name = getUniqueName();
 
-                Card card = new Card(getUniqueName(), manaCost, manaCost, getRandomMove());
+                Card card = new Card(id, getUniqueName(), manaCost, manaCost, getRandomMove());
+                id++;
 
                 if (Objects.isNull(allCardNames)) {
                     allCardNames = new HashSet<>();
@@ -40,7 +42,7 @@ public class TradingCardsUtil {
                     allCards.put(manaCost, new ArrayList<>());
                 }
 
-                allCardNames.add(card.getCardName());
+                allCardNames.add(card.getName());
                 allCards.get(manaCost).add(card);
             }
         }

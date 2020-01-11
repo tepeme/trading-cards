@@ -1,4 +1,4 @@
-package com.tepe.trendyol.exception;
+package com.tepe.tradingcards.exception;
 
 public enum TradingCardsExceptionType {
 

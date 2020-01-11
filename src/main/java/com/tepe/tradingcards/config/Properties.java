@@ -1,4 +1,4 @@
-package com.tepe.trendyol.config;
+package com.tepe.tradingcards.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

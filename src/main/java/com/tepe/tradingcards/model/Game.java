@@ -1,8 +1,8 @@
-package com.tepe.trendyol.model;
+package com.tepe.tradingcards.model;
 
-import com.tepe.trendyol.config.Properties;
-import com.tepe.trendyol.bo.PlayerBO;
-import com.tepe.trendyol.exception.TradingCardsException;
+import com.tepe.tradingcards.config.Properties;
+import com.tepe.tradingcards.bo.PlayerBO;
+import com.tepe.tradingcards.exception.TradingCardsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

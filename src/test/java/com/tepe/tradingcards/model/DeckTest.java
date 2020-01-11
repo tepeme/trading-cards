@@ -1,9 +1,8 @@
-package com.tepe.trendyol.model;
+package com.tepe.tradingcards.model;
 
-import com.tepe.trendyol.bo.CardBO;
-import com.tepe.trendyol.bo.DeckBO;
-import com.tepe.trendyol.config.Properties;
-import com.tepe.trendyol.exception.TradingCardsException;
+import com.tepe.tradingcards.bo.DeckBO;
+import com.tepe.tradingcards.config.Properties;
+import com.tepe.tradingcards.exception.TradingCardsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,6 +28,7 @@ public class DeckTest {
     public void testDeck() throws TradingCardsException {
 
         Deck deck = deckBO.createDeck();
-        assertEquals(properties.getMaxDeckSize(), deck.getCards().size());
+        assertEquals(properties.getMaxDeckSize(), deck.getSize());
+        deck.print();
     }
 }

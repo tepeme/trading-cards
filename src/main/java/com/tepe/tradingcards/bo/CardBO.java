@@ -1,9 +1,9 @@
-package com.tepe.trendyol.bo;
+package com.tepe.tradingcards.bo;
 
-import com.tepe.trendyol.exception.TradingCardsException;
-import com.tepe.trendyol.exception.TradingCardsExceptionType;
-import com.tepe.trendyol.model.Card;
-import com.tepe.trendyol.util.TradingCardsUtil;
+import com.tepe.tradingcards.exception.TradingCardsException;
+import com.tepe.tradingcards.exception.TradingCardsExceptionType;
+import com.tepe.tradingcards.model.Card;
+import com.tepe.tradingcards.util.TradingCardsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.tepe.trendyol;
+package com.tepe.tradingcards;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
