@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TradingCardsUtil</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.tepe.tradingcards.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TradingCardsUtil (com.tepe.tradingcards.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TradingCardsUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.tepe.tradingcards.util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.github.javafaker.Faker;
+<i>4</i>&nbsp;import com.tepe.tradingcards.config.Properties;
+<i>5</i>&nbsp;import com.tepe.tradingcards.model.Card;
+<i>6</i>&nbsp;import com.tepe.tradingcards.model.MoveType;
+<i>7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>8</i>&nbsp;import org.springframework.stereotype.Component;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import javax.annotation.PostConstruct;
+<i>11</i>&nbsp;import java.util.*;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;@Component
+<b class="fc"><i>14</i>&nbsp;public class TradingCardsUtil {</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    @Autowired
+<i>17</i>&nbsp;    private Properties properties;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    private static Set&lt;String&gt; allCardNames;
+<b class="fc"><i>20</i>&nbsp;    private static Map&lt;Integer, List&lt;Card&gt;&gt; allCards = new HashMap&lt;&gt;();</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * Initializes every Card in game. This can be replaced with a method retrieving Cards from a DB etc.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    @PostConstruct private void initAllCards() {
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        int id = 1;</b>
+<b class="fc"><i>28</i>&nbsp;        for (int manaCost = 0; manaCost &lt;= properties.getPlayerMaxMana(); manaCost++) {</b>
+<b class="fc"><i>29</i>&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;                String name = getUniqueName();</b>
+<i>32</i>&nbsp;
+<b class="fc"><i>33</i>&nbsp;                Card card = new Card(id, getUniqueName(), manaCost, manaCost, getRandomMove());</b>
+<b class="fc"><i>34</i>&nbsp;                id++;</b>
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;                if (Objects.isNull(allCardNames)) {</b>
+<b class="fc"><i>37</i>&nbsp;                    allCardNames = new HashSet&lt;&gt;();</b>
+<i>38</i>&nbsp;                }
+<b class="fc"><i>39</i>&nbsp;                if (Objects.isNull(allCards.get(manaCost))) {</b>
+<b class="fc"><i>40</i>&nbsp;                    allCards.put(manaCost, new ArrayList&lt;&gt;());</b>
+<i>41</i>&nbsp;                }
+<i>42</i>&nbsp;
+<b class="fc"><i>43</i>&nbsp;                allCardNames.add(card.getName());</b>
+<b class="fc"><i>44</i>&nbsp;                allCards.get(manaCost).add(card);</b>
+<i>45</i>&nbsp;            }
+<i>46</i>&nbsp;        }
+<b class="fc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Find a name that has not been given to any Card
+<i>51</i>&nbsp;     * @return
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public static String getUniqueName() {
+<b class="fc"><i>54</i>&nbsp;        Faker faker = new Faker();</b>
+<b class="fc"><i>55</i>&nbsp;        String name = faker.pokemon().name();</b>
+<b class="fc"><i>56</i>&nbsp;        if (!Objects.isNull(allCardNames)) {</b>
+<b class="fc"><i>57</i>&nbsp;            while(allCardNames.contains(name)) {</b>
+<b class="fc"><i>58</i>&nbsp;                name = faker.pokemon().name();</b>
+<i>59</i>&nbsp;            }
+<i>60</i>&nbsp;        }
+<b class="fc"><i>61</i>&nbsp;        return name;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * Retrieves List of Cards with mana cost equal to {@code manaCost}
+<i>66</i>&nbsp;     * @param manaCost
+<i>67</i>&nbsp;     * @return
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public List&lt;Card&gt; getAllCardsByManaCost(int manaCost){
+<b class="fc"><i>70</i>&nbsp;        return allCards.get(manaCost);</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * Returns a random move
+<i>75</i>&nbsp;     * @return
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    private MoveType getRandomMove() {
+<b class="fc"><i>78</i>&nbsp;        Random random = new Random();</b>
+<b class="fc"><i>79</i>&nbsp;        List&lt;MoveType&gt; everyMove = Arrays.asList(MoveType.values());</b>
+<b class="fc"><i>80</i>&nbsp;        return everyMove.get(random.nextInt(everyMove.size()));</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-12 19:23</div>
+</div>
+</body>
+</html>

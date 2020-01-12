@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class IOUtil {
-    private static volatile IOUtil instance;
+    private static IOUtil instance;
 
     private IOUtil(){}
 

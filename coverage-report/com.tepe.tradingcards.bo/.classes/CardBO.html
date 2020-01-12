@@ -1,0 +1,117 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CardBO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.tepe.tradingcards.bo</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CardBO (com.tepe.tradingcards.bo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardBO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.tepe.tradingcards.bo;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.tepe.tradingcards.exception.TradingCardsException;
+<i>4</i>&nbsp;import com.tepe.tradingcards.exception.TradingCardsExceptionType;
+<i>5</i>&nbsp;import com.tepe.tradingcards.model.Card;
+<i>6</i>&nbsp;import com.tepe.tradingcards.util.TradingCardsUtil;
+<i>7</i>&nbsp;import org.slf4j.Logger;
+<i>8</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>10</i>&nbsp;import org.springframework.stereotype.Component;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.util.List;
+<i>13</i>&nbsp;import java.util.Objects;
+<i>14</i>&nbsp;import java.util.Random;
+<i>15</i>&nbsp;
+<b class="fc"><i>16</i>&nbsp;@Component public class CardBO {</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    private static Logger LOG = LoggerFactory.getLogger(TradingCardsUtil.class);</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Autowired private TradingCardsUtil tradingCardsUtil;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public Card pollCard(int manaCost) throws TradingCardsException {
+<b class="fc"><i>23</i>&nbsp;        List&lt;Card&gt; allCards = tradingCardsUtil.getAllCardsByManaCost(manaCost);</b>
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;        if (Objects.isNull(allCards) || allCards.size() &lt; 1) {</b>
+<b class="fc"><i>26</i>&nbsp;            LOG.error(&quot;Not enough cards in game&quot;);</b>
+<b class="fc"><i>27</i>&nbsp;            throw new TradingCardsException(TradingCardsExceptionType.NOT_ENOUGH_CARDS_IN_GAME);</b>
+<i>28</i>&nbsp;        }
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;        Random random = new Random();</b>
+<i>31</i>&nbsp;
+<b class="fc"><i>32</i>&nbsp;        return allCards.get(random.nextInt(allCards.size()));</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-12 19:23</div>
+</div>
+</body>
+</html>

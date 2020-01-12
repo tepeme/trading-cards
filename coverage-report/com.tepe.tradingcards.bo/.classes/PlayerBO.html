@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PlayerBO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.tepe.tradingcards.bo</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PlayerBO (com.tepe.tradingcards.bo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerBO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.9%
+  </span>
+  <span class="absValue">
+    (7/ 47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.tepe.tradingcards.bo;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.tepe.tradingcards.config.Properties;
+<i>4</i>&nbsp;import com.tepe.tradingcards.exception.TradingCardsException;
+<i>5</i>&nbsp;import com.tepe.tradingcards.model.Deck;
+<i>6</i>&nbsp;import com.tepe.tradingcards.model.Game;
+<i>7</i>&nbsp;import com.tepe.tradingcards.model.MoveType;
+<i>8</i>&nbsp;import com.tepe.tradingcards.model.Player;
+<i>9</i>&nbsp;import com.tepe.tradingcards.model.interfaces.Playable;
+<i>10</i>&nbsp;import com.tepe.tradingcards.util.IOUtil;
+<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>12</i>&nbsp;import org.springframework.stereotype.Component;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.util.ArrayList;
+<i>15</i>&nbsp;import java.util.Objects;
+<i>16</i>&nbsp;import java.util.stream.Collectors;
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;@Component public class PlayerBO {</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @Autowired private Properties properties;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @Autowired private DeckBO deckBO;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Autowired private Game game;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Initializes a player by system properties.
+<i>28</i>&nbsp;     * @return Player
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public Player createPlayer(int id) throws TradingCardsException {
+<i>31</i>&nbsp;        Player player;
+<b class="fc"><i>32</i>&nbsp;        Deck deck = deckBO.createDeck();</b>
+<b class="fc"><i>33</i>&nbsp;        Deck hand = new Deck(new ArrayList&lt;&gt;());</b>
+<b class="fc"><i>34</i>&nbsp;        player = new Player(id, properties.getPlayerMaxHealth(), properties.getPlayerInitMana(),</b>
+<b class="fc"><i>35</i>&nbsp;                properties.getPlayerInitMana(), deck, hand, properties.getPlayerMaxHandSize(),</b>
+<b class="fc"><i>36</i>&nbsp;                properties.getPlayerMaxMana());</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;        return player;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public void play(Player player) {
+<b class="nc"><i>42</i>&nbsp;        IOUtil.getInstance().print(&quot;Player #&quot; + (player.getId() + 1) + &quot; your turn:&quot;);</b>
+<b class="nc"><i>43</i>&nbsp;        player.prepareForTurn(properties.getPlayerInitCards());</b>
+<b class="nc"><i>44</i>&nbsp;        IOUtil.getInstance().print(&quot;Here are the cards in your hand:&quot;);</b>
+<b class="nc"><i>45</i>&nbsp;        player.getHand().print();</b>
+<b class="nc"><i>46</i>&nbsp;        IOUtil.getInstance().printBreak();</b>
+<i>47</i>&nbsp;
+<b class="nc"><i>48</i>&nbsp;        Playable playable = null;</b>
+<b class="nc"><i>49</i>&nbsp;        boolean isSkip = false;</b>
+<b class="nc"><i>50</i>&nbsp;        while(player.canPlayPlayable() &amp;&amp; !isSkip) {</b>
+<b class="nc"><i>51</i>&nbsp;            if (!Objects.isNull(playable)) {</b>
+<b class="nc"><i>52</i>&nbsp;                IOUtil.getInstance().print(&quot;Player #&quot; + (player.getId() + 1) + &quot; your turn:&quot;);</b>
+<b class="nc"><i>53</i>&nbsp;                IOUtil.getInstance().print(&quot;Here are the cards in your hand:&quot;);</b>
+<b class="nc"><i>54</i>&nbsp;                player.getHand().print();</b>
+<b class="nc"><i>55</i>&nbsp;                IOUtil.getInstance().printBreak();</b>
+<i>56</i>&nbsp;            }
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;            playable = askNextPlayable(player);</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;            if (Objects.isNull(playable)) {</b>
+<b class="nc"><i>61</i>&nbsp;                isSkip = true;</b>
+<i>62</i>&nbsp;            } else {
+<b class="nc"><i>63</i>&nbsp;                playable.makeMove(game.getPlayers().stream().filter(p -&gt; !p.equals(player)).collect(Collectors.toList()));</b>
+<b class="nc"><i>64</i>&nbsp;                player.getHand().discard(playable);</b>
+<b class="nc"><i>65</i>&nbsp;                player.reduceMana(playable.getManaCost());</b>
+<i>66</i>&nbsp;            }
+<i>67</i>&nbsp;        }
+<i>68</i>&nbsp;
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    private Playable askNextPlayable(Player player) {
+<b class="nc"><i>72</i>&nbsp;        IOUtil.getInstance().print(&quot;You have &quot; + player.getActiveMana() + &quot; Mana to use!&quot;);</b>
+<b class="nc"><i>73</i>&nbsp;        String userInput = IOUtil.getInstance().askPlayableIdOrName();</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        Playable playable = null;</b>
+<b class="nc"><i>76</i>&nbsp;        boolean askAgain = true;</b>
+<b class="nc"><i>77</i>&nbsp;        while (Objects.isNull(playable) &amp;&amp; askAgain) {</b>
+<i>78</i>&nbsp;            int playableId;
+<i>79</i>&nbsp;            String playableName;
+<i>80</i>&nbsp;            try {
+<b class="nc"><i>81</i>&nbsp;                playableId = Integer.parseInt(userInput);</b>
+<b class="nc"><i>82</i>&nbsp;                playable = player.getHand().findById(playableId);</b>
+<b class="nc"><i>83</i>&nbsp;            } catch (NumberFormatException nfe) {</b>
+<b class="nc"><i>84</i>&nbsp;                playableName = userInput;</b>
+<b class="nc"><i>85</i>&nbsp;                playable = player.getHand().findByName(playableName);</b>
+<b class="nc"><i>86</i>&nbsp;            }</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;            if (!Objects.isNull(playable) &amp;&amp; player.getActiveMana() &lt; playable.getManaCost()){</b>
+<b class="nc"><i>89</i>&nbsp;                askAgain = true;</b>
+<b class="nc"><i>90</i>&nbsp;                playable = null;</b>
+<b class="nc"><i>91</i>&nbsp;                IOUtil.getInstance().print(&quot;Not Enough Mana!&quot;);</b>
+<i>92</i>&nbsp;            } else {
+<b class="nc"><i>93</i>&nbsp;                askAgain = false;</b>
+<i>94</i>&nbsp;            }
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;            if (askAgain) {</b>
+<b class="nc"><i>97</i>&nbsp;                IOUtil.getInstance().print(&quot;You have &quot; + player.getActiveMana() + &quot; Mana to use!&quot;);</b>
+<b class="nc"><i>98</i>&nbsp;                userInput = IOUtil.getInstance().askPlayableIdOrName();</b>
+<i>99</i>&nbsp;            }
+<i>100</i>&nbsp;        }
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        return playable;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-12 19:23</div>
+</div>
+</body>
+</html>

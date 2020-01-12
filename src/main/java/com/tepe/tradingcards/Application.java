@@ -10,14 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication public class Application implements CommandLineRunner {
 
-    private static Logger LOG = LoggerFactory.getLogger(Application.class);
-
     @Autowired private Game game;
 
     public static void main(String[] args) {
-        LOG.info("Starting The Game");
+        System.out.println("Starting The Game");
         SpringApplication.run(Application.class, args);
-        LOG.info("Game Finished");
+        System.out.println("Game Finished");
     }
 
     @Override public void run(String... args) throws Exception {

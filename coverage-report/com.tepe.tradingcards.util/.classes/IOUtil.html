@@ -1,0 +1,114 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IOUtil</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.tepe.tradingcards.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IOUtil (com.tepe.tradingcards.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IOUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (8/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.tepe.tradingcards.util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Objects;
+<i>4</i>&nbsp;import java.util.Scanner;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class IOUtil {
+<i>7</i>&nbsp;    private static IOUtil instance;
+<i>8</i>&nbsp;
+<b class="fc"><i>9</i>&nbsp;    private IOUtil(){}</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    public static IOUtil getInstance() {
+<b class="fc"><i>12</i>&nbsp;        if(Objects.isNull(instance)) {</b>
+<b class="fc"><i>13</i>&nbsp;            instance = new IOUtil();</b>
+<i>14</i>&nbsp;        }
+<b class="fc"><i>15</i>&nbsp;        return instance;</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public void print(String output) {
+<b class="fc"><i>19</i>&nbsp;        System.out.println(output);</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public String askPlayableIdOrName(){
+<b class="nc"><i>23</i>&nbsp;        System.out.println(&quot;Which card do you want to play? Enter either ID or Name of the Card. Enter invalid to skip turn&quot;);</b>
+<b class="nc"><i>24</i>&nbsp;        Scanner scanner = new Scanner(System.in);</b>
+<b class="nc"><i>25</i>&nbsp;        return scanner.next();</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public void printBreak() {
+<b class="fc"><i>29</i>&nbsp;        System.out.println(&quot;---------------------------------------------------------------------------&quot;);</b>
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-01-12 19:23</div>
+</div>
+</body>
+</html>
