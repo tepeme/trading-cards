@@ -15,8 +15,6 @@ import static org.junit.Assert.*;
 
 public class DeckTest extends BaseTest {
 
-    private static final int MAX_PLAYABLES = 5;
-
     @Autowired
     private DeckBO deckBO;
 

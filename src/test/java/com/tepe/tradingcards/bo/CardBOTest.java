@@ -15,8 +15,9 @@ public class CardBOTest extends BaseTest {
     @Test
     public void testCard() throws TradingCardsException {
         Card card = cardBO.pollCard(0);
+        assertTrue(card.getManaCost() == 0);
         try {
-            Card card2 = cardBO.pollCard(-1);
+            cardBO.pollCard(-1);
         } catch (TradingCardsException e) {
             assertTrue(true);
         }

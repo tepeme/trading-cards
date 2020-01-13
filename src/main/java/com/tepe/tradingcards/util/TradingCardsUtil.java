@@ -16,8 +16,9 @@ public class TradingCardsUtil {
     @Autowired
     private Properties properties;
 
-    private static Set<String> allCardNames;
-    private static Map<Integer, List<Card>> allCards = new HashMap<>();
+    private Set<String> allCardNames;
+    private Map<Integer, List<Card>> allCards = new HashMap<>();
+    private Random random = new Random();
 
     /**
      * Initializes every Card in game. This can be replaced with a method retrieving Cards from a DB etc.
@@ -27,8 +28,6 @@ public class TradingCardsUtil {
         int id = 1;
         for (int manaCost = 0; manaCost <= properties.getPlayerMaxMana(); manaCost++) {
             for (int j = 0; j < 5; j++) {
-
-                String name = getUniqueName();
 
                 Card card = new Card(id, getUniqueName(), manaCost, manaCost, getRandomMove());
                 id++;
@@ -50,7 +49,7 @@ public class TradingCardsUtil {
      * Find a name that has not been given to any Card
      * @return
      */
-    public static String getUniqueName() {
+    public String getUniqueName() {
         Faker faker = new Faker();
         String name = faker.pokemon().name();
         if (!Objects.isNull(allCardNames)) {
@@ -75,7 +74,6 @@ public class TradingCardsUtil {
      * @return
      */
     private MoveType getRandomMove() {
-        Random random = new Random();
         List<MoveType> everyMove = Arrays.asList(MoveType.values());
         return everyMove.get(random.nextInt(everyMove.size()));
     }

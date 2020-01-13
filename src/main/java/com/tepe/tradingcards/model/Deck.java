@@ -72,8 +72,7 @@ public class Deck implements Drawable {
     @Override
     public Playable draw() {
         if (hasEnoughPlayable(1)) {
-            Playable playable = this.playables.remove(0);
-            return playable;
+            return this.playables.remove(0);
         }
         IOUtil.getInstance().print("Deck is empty! Can not draw.");
         return null;
@@ -110,8 +109,7 @@ public class Deck implements Drawable {
      */
     @Override
     public Playable discardLast() {
-        Playable discarded = this.playables.remove(getSize()-1);
-        return discarded;
+        return this.playables.remove(getSize()-1);
     }
 
     /**

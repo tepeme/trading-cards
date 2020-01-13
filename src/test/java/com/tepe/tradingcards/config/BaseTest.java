@@ -19,7 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ContextConfiguration(classes = {Game.class, PlayerBO.class, DeckBO.class, CardBO.class,
         TradingCardsUtil.class, Properties.class})
 public class BaseTest {
+
     @Test
     public void test() {
+        //Not Doing Anything. Just Configuration class
     }
 }

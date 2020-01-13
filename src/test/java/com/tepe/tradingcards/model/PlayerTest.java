@@ -1,22 +1,13 @@
 package com.tepe.tradingcards.model;
 
-import com.tepe.tradingcards.bo.CardBO;
-import com.tepe.tradingcards.bo.DeckBO;
+import com.tepe.tradingcards.bo.PlayerBO;
 import com.tepe.tradingcards.config.BaseTest;
 import com.tepe.tradingcards.config.Properties;
-import com.tepe.tradingcards.bo.PlayerBO;
 import com.tepe.tradingcards.exception.TradingCardsException;
-import com.tepe.tradingcards.util.TradingCardsUtil;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 public class PlayerTest extends BaseTest {
 
@@ -53,7 +44,10 @@ public class PlayerTest extends BaseTest {
     @Test
     public void testEmptyPlayer() {
         Player player = new Player(0, properties.getPlayerMaxHealth(), 0, 0,
-                null, null, properties.getPlayerMaxHandSize(), properties.getPlayerMaxMana());
+                null, null);
+        Player.setMaxHandSize(properties.getPlayerMaxHandSize());
+        Player.setMaxMana(properties.getPlayerMaxMana());
+
         player.printHand();
         assertEquals(0, player.getId());
         assertFalse(player.draw());

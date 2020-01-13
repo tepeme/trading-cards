@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Component
@@ -23,6 +24,8 @@ public class Game {
 
     private List<Player> players;
 
+    private Random random = new Random();
+
     @PostConstruct
     private void initializeGame() throws TradingCardsException {
         players = new ArrayList<>();
@@ -32,7 +35,6 @@ public class Game {
     }
 
     public void playGame() {
-        Random random = new Random();
         int nextPlayerId = random.nextInt(players.size());
         Player currentPlayer = players.get(nextPlayerId);
         Player previousPlayer = null;
@@ -46,6 +48,9 @@ public class Game {
             currentPlayer = players.get(nextPlayerId%players.size());
         }
 
+        if (Objects.isNull(previousPlayer)) {
+            previousPlayer = currentPlayer;
+        }
         IOUtil.getInstance().print("Congratulations Player #" + (previousPlayer.getId() + 1));
     }
 

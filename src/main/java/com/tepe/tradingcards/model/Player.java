@@ -3,7 +3,6 @@ package com.tepe.tradingcards.model;
 import com.tepe.tradingcards.model.interfaces.Drawable;
 import com.tepe.tradingcards.model.interfaces.Playable;
 import com.tepe.tradingcards.util.IOUtil;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Objects;
 
@@ -18,14 +17,28 @@ public class Player {
     private static int maxHandSize;
     private static int maxMana;
 
-    public Player(int id, int health, int activeMana, int allowedMana, Drawable deck, Drawable hand, int maxHandSize, int maxMana) {
+    public Player(int id, int health, int activeMana, int allowedMana, Drawable deck, Drawable hand) {
         this.id = id;
         this.health = health;
         this.activeMana = activeMana;
         this.allowedMana = allowedMana;
         this.deck = deck;
         this.hand = hand;
+    }
+
+    public static int getMaxHandSize() {
+        return maxHandSize;
+    }
+
+    public static void setMaxHandSize(int maxHandSize) {
         Player.maxHandSize = maxHandSize;
+    }
+
+    public static int getMaxMana() {
+        return maxMana;
+    }
+
+    public static void setMaxMana(int maxMana) {
         Player.maxMana = maxMana;
     }
 
@@ -107,7 +120,7 @@ public class Player {
 
         if (!Objects.isNull(playable)) {
             this.getHand().add(playable);
-            result = !this.checkOverloadAndDiscard(this.maxHandSize);
+            result = !this.checkOverloadAndDiscard(Player.maxHandSize);
         } else {
             bleed();
             IOUtil.getInstance().print("Bleeding");

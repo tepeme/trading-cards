@@ -32,8 +32,9 @@ import java.util.stream.Collectors;
         Deck deck = deckBO.createDeck();
         Deck hand = new Deck(new ArrayList<>());
         player = new Player(id, properties.getPlayerMaxHealth(), properties.getPlayerInitMana(),
-                properties.getPlayerInitMana(), deck, hand, properties.getPlayerMaxHandSize(),
-                properties.getPlayerMaxMana());
+                properties.getPlayerInitMana(), deck, hand);
+        Player.setMaxHandSize(properties.getPlayerMaxHandSize());
+        Player.setMaxMana(properties.getPlayerMaxMana());
 
         return player;
     }
